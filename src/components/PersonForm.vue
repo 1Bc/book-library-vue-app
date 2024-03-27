@@ -3,11 +3,53 @@ export default {
   name: 'person-form',
   data() {
     return {
+      submitting: false,
+      error: false,
+      success: false,
       person: {
         name: '',
         email: '',
         phone: ''
       }
+    }
+  },
+  methods: {
+    handleSubmit() {
+      this.submitting = true
+      this.clearStatus()
+
+      if (this.invalidName || this.invalidEmail || this.invalidPhone) {
+        this.error = true
+        return
+      }
+
+      this.$emit('add:person', this.person)
+
+      this.person = {
+        name: '',
+        email: '',
+        phone: ''
+      }
+
+      this.error = false
+      this.success = true
+      this.submitting = false
+    },
+
+    clearStatus() {
+      this.error = false
+      this.success = false
+    }
+  },
+  computed: {
+    invalidName() {
+      return this.person.name === ''
+    },
+    invalidEmail() {
+      return this.person.email === ''
+    },
+    invalidPhone() {
+      return this.person.phone === ''
     }
   }
 }
@@ -15,14 +57,37 @@ export default {
 
 <template>
   <div id="person-form">
-    <form>
-      <label for="name">Imię i nazwisko</label>
-      <input type="text" id="name" name="name" required>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-      <label for="phone">Telefon</label>
-      <input type="tel" id="phone" name="phone" required>
-      <button type="submit">Dodaj kontakt</button>
+    <form @submit.prevent="handleSubmit">
+      <label>Imię i nazwisko</label>
+      <input
+          v-model="person.name"
+          type="text"
+          :class="{ 'has-error': submitting && invalidName }"
+          @focus="clearStatus"
+          @keypress="clearStatus"
+      />
+      <label>Email</label>
+      <input
+          v-model="person.email"
+          type="text"
+          :class="{ 'has-error': submitting && invalidEmail }"
+          @focus="clearStatus"
+      />
+      <label>Telefon</label>
+      <input
+          v-model="person.phone"
+          type="text"
+          :class="{ 'has-error': submitting && invalidPhone }"
+          @focus="clearStatus"
+          @keypress="clearStatus"
+      />
+      <p v-if="error && submitting" class="error-message">
+        Proszę wypełnić wskazane pola formularza
+      </p>
+      <p v-if="success" class="success-message">
+        Dane poprawnie zapisano
+      </p>
+      <button>Dodaj kontakt</button>
     </form>
   </div>
 </template>
@@ -30,5 +95,17 @@ export default {
 <style scoped>
   form {
     margin-bottom: 2rem;
+  }
+
+  [class*='-message'] {
+    font-weight: 500;
+  }
+
+  .error-message {
+    color: #d33c40;
+  }
+
+  .success-message {
+    color: #32a95d;
   }
 </style>

@@ -2,7 +2,7 @@
   <div id="app" class="small-container">
     <h1>Znajomi</h1>
 
-    <person-form/>
+    <person-form @add:person="addPerson"/>
     <persons-table :personsSource="persons"/>
   </div>
 </template>
@@ -39,6 +39,11 @@ export default {
           phone: '+48 609 554 987'
         }
       ]
+    }
+  },
+  methods: {
+    addPerson(person) {
+      this.persons = [...this.persons, person]
     }
   }
 }
