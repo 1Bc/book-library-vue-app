@@ -2,17 +2,20 @@
   <div id="app" class="small-container">
     <h1>Znajomi</h1>
 
+    <person-form/>
     <persons-table :personsSource="persons"/>
   </div>
 </template>
 
 <script>
 import PersonsTable from './components/PersonsTable.vue'
+import PersonForm from './components/PersonForm.vue'
 
 export default {
   name: 'App',
   components: {
-    PersonsTable
+    PersonsTable,
+    PersonForm
   },
   data() {
     return {
