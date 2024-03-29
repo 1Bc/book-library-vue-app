@@ -1,5 +1,8 @@
 # address-book-vue-app
 
+### Tutorial:
+[Vue.js Tutorial: Beginner to Front-End Developer](https://youtu.be/1GNsWa_EZdw?si=wUffQg1bMYnEC8Sf&t=8116)
+
 ### TODO:
 - [x] Należy zaimplementować frontend w Vue do backendu opracowanego na poprzednim laboratorium (Lab 5 REST API). Frontend powinien wspierać wszystkie operacje CRUD przynajmniej dla książek (dobrze by było, aby do wszystkich obiektów).
 - [x] Proszę pamiętać o page'owaniu tabel
