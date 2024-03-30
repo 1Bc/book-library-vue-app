@@ -1,37 +1,44 @@
-<script>
-export default {
-  props: ['pageCreated'],
-  computed: {
-    isFormInvalid() {
-      return !this.pageTitle || !this.content || !this.linkText || !this.linkUrl;
-    }
-  },
-  data() {
-    return {
-      pageTitle: '',
-      content: '',
-      linkText: '',
-      linkUrl: ''
-    }
-  },
-  methods: {
-    submitForm() {
-      if (!this.pageTitle || !this.content || !this.linkText || !this.linkUrl) {
-        alert('Please fill the form');
-        return;
-      }
+<script setup>
+import {ref,inject,computed,watch} from "vue";
+import {useRouter} from "vue-router";
 
-      this.pageCreated({
-        pageTitle: this.pageCreated,
-        content: this.content,
-        link: {
-          text: this.linkText,
-          url: this.linkUrl
-        }
-      });
-    }
+const router = useRouter();
+const bus = inject('$bus');
+const pages = inject('$pages');
+
+let pageTitle= ref('');
+let content= ref('');
+let linkText= ref('');
+let published= ref(false);
+
+function submitForm() {
+  if (!pageTitle.value || !content.value || !linkText.value ) {
+    alert('Please fill the form');
+    return;
   }
+  const newPage = {
+    pageTitle:pageTitle.value,
+    content:content.value,
+    link: {
+      text: linkText.value,
+    },
+    published:published.value
+  };
+  pages.addPage(newPage)
+  bus.$emit('page-created',newPage);
+
+  router.push({path:'/pages'})
+
 }
+
+const isFormInvalid = computed(()=> !pageTitle.value || !content.value || !linkText.value)
+
+watch(pageTitle, (newTitle,oldTitle)=>{
+  if(linkText.value === oldTitle){
+    linkText.value = newTitle
+  }
+})
+
 </script>
 
 <template>
@@ -71,19 +78,9 @@ export default {
             v-model="linkText"
           />
         </div>
-        <div class="mb-3">
-          <label for="" class="form-label">
-            Link URL
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            v-model="linkUrl"
-          />
-        </div>
         <div class="row mb-3">
           <div class="form-check">
-            <input class="form-check-inline" type="checkbox">
+            <input class="form-check-inline" type="checkbox" v-model="published">
             <label class="form-check-label" for="gridCheck1">
               Published
             </label>

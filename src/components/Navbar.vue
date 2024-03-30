@@ -5,15 +5,38 @@ export default {
   components: {
     NavbarLink
   },
+  inject: ['$pages', '$bus'],
   created() {
     this.getThemeSettings();
+    this.pages = this.$pages.getAllPages();
+
+    this.$bus.$on('page-updated', () => {
+      this.pages = [...this.$pages.getAllPages()];
+    });
+
+    this.$bus.$on('page-created', () => {
+      this.pages = [...this.$pages.getAllPages()];
+    });
+
+    this.$bus.$on('page-deleted', () => {
+      this.pages = [...this.$pages.getAllPages()];
+    });
+
   },
-  props: ['pages', 'activePage', 'navLinkClick'],
+
   data() {
     return {
-      theme: 'light'
+      theme: 'light',
+      pages: []
     };
   },
+
+  computed: {
+    getPublishedPages() {
+      return this.pages.filter(p => p.published);
+    }
+  },
+
   methods: {
     changeTheme() {
       let theme = 'light';
@@ -46,22 +69,30 @@ export default {
     <div class="container-fluid">
       <a class="navbar-brand" href="#">My Vue</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li v-for="(page, index) in pages" class="nav-item" :key="index">
-          <navbar-link
-              :page="page"
-              :isActive="activePage === index"
-              @click.prevent="navLinkClick(index)"
-          ></navbar-link>
+        <navbar-link
+            v-for="(page, index) in getPublishedPages" class="nav-item" :key="index"
+            :page="page"
+            :index="index"
+        ></navbar-link>
+        <li>
+          <router-link
+              :to="`/pages/`"
+              class="nav-link"
+              active-class="active"
+          >
+            Pages
+          </router-link>
         </li>
       </ul>
       <form>
         <button
-          class="btn btn-primary"
-          @click.prevent="changeTheme()"
-        >Toggle</button>
+            class="btn btn-primary"
+            @click.prevent="changeTheme()"
+        >Toggle
+        </button>
       </form>
     </div>
-</nav>
+  </nav>
 </template>
 
 <style scoped>
