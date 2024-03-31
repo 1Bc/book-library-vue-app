@@ -1,8 +1,9 @@
 const apiPath = 'http://localhost:8080/api/v1/'
+const perPage =20
 
 export default {
-    async getAllAuthors(){
-        const path = apiPath+'authors'
+    async getAllAuthors(page){
+        const path = apiPath+`authors/pages?page=${page}&perPage=${perPage}`
 
         try{
             const response = await fetch(path);
@@ -11,6 +12,18 @@ export default {
             console.log(e);
             alert("Unexpected error on API call");
             return []
+        }
+    },
+    async getPageCount(){
+        const path = apiPath+`authors/pages/count?perPage=${perPage}`
+
+        try{
+            const response = await fetch(path);
+            return  await response.json();
+        }catch (e){
+            console.log(e);
+            alert("Unexpected error on API call");
+            return 0
         }
     },
     async getAuthor(id){
