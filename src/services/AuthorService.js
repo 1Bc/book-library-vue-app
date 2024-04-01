@@ -1,7 +1,7 @@
+
 const apiPath = 'http://localhost:8080/api/v1/'
 const perPageDefault = 20
-
-export default {
+class AuthorService{
     async getAllAuthors(page, perPage=perPageDefault){
         const path = apiPath+`authors/pages?page=${page}&perPage=${perPage}`
 
@@ -13,7 +13,7 @@ export default {
             alert("Unexpected error on API call");
             return []
         }
-    },
+    }
 
     async getPageCount(perPage= perPageDefault){
         const path = apiPath+`authors/pages/count?perPage=${perPage}`
@@ -26,7 +26,7 @@ export default {
             alert("Unexpected error on API call");
             return 0
         }
-    },
+    }
 
     async getAuthor(id){
         const path = apiPath+'authors/'+id
@@ -39,7 +39,7 @@ export default {
             alert("Unexpected error on API call");
             return []
         }
-    },
+    }
 
     async postAuthor(requestBody){
         const path = apiPath+'authors'
@@ -60,7 +60,7 @@ export default {
             alert("Unexpected error on API call");
             return false
         }
-    },
+    }
 
     async updateAuthor(requestBody,index){
         const path = apiPath+'authors/'+index
@@ -81,7 +81,7 @@ export default {
             alert("Unexpected error on API call");
             return false
         }
-    },
+    }
 
     async deleteAuthor(index){
         const path = apiPath+'authors/'+index
@@ -100,3 +100,5 @@ export default {
         }
     }
 }
+
+export default new AuthorService();

@@ -1,17 +1,14 @@
 import {createRouter,createWebHashHistory} from "vue-router";
-import Authors from "@/views/Author/AuthorMenu.vue";
-import AuthorEdit from "@/views/Author/AuthorEdit.vue";
-import AuthorCreate from "@/views/Author/AuthorCreate.vue";
-import AuthorList from "@/views/Author/AuthorList.vue";
+
 
 const routes = [
     {
         path: '/authors',
-        component: Authors,
+        component: ()=>import("@/views/Author/AuthorMenu.vue"),
         children:[
-            {path: '', component: AuthorList},
-            {path: ':index/edit', component: AuthorEdit, props:true},
-            {path: 'create', component: AuthorCreate}
+            {path: '', component: ()=> import("@/views/Author/AuthorList.vue")},
+            {path: ':index/edit', component: ()=>import("@/views/Author/AuthorEdit.vue"), props:true},
+            {path: 'create', component: ()=>import("@/views/Author/AuthorCreate.vue")}
         ]
     },
     {
@@ -21,6 +18,15 @@ const routes = [
             { path: '', component: () => import('@/views/Reader/ReaderList.vue') },
             { path: 'edit/:id', name: 'ReaderEdit', component: () => import('@/views/Reader/ReaderEdit.vue'), props: true },
             { path: 'create', component: () => import('@/views/Reader/ReaderCreate.vue') }
+        ]
+    },
+    {
+        path: '/books',
+        component: () => import('@/views/Book/BookMenu.vue'),
+        children: [
+            { path: '', component: () => import('@/views/Book/BookList.vue') },
+            { path: ':index/edit',  component: () => import('@/views/Book/BookEdit.vue'), props: true },
+            { path: 'create', component: () => import('@/views/Book/BookCreate.vue') }
         ]
     },
 ]
