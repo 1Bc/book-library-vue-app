@@ -1,5 +1,5 @@
 const apiPath = 'http://localhost:8080/api/v1/'
-const perPage =20
+const perPage = 20
 
 export default {
     async getAllAuthors(page){
@@ -14,6 +14,7 @@ export default {
             return []
         }
     },
+
     async getPageCount(){
         const path = apiPath+`authors/pages/count?perPage=${perPage}`
 
@@ -26,6 +27,7 @@ export default {
             return 0
         }
     },
+
     async getAuthor(id){
         const path = apiPath+'authors/'+id
 
@@ -38,7 +40,6 @@ export default {
             return []
         }
     },
-
 
     async postAuthor(requestBody){
         const path = apiPath+'authors'
@@ -98,8 +99,4 @@ export default {
             return false
         }
     }
-
-
-
-
 }

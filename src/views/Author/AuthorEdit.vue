@@ -39,7 +39,7 @@ function goToAuthors() {
 </script>
 
 <template>
-  <h4 class="text-center">Add Author</h4>
+  <h4 class="text-center">Edit Author</h4>
   <form class="container mb-3">
 
     <div class="row justify-content-center">
