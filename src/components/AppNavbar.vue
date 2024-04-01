@@ -20,7 +20,7 @@ export default {
       :class="[`navbar-${theme}`, `bg-${theme}`, 'navbar', 'navbar-expand-lg']"
   >
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">My Vue</a>
+      <a class="navbar-brand" href="#">Book Library</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li>
           <router-link
