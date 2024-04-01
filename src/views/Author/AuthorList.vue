@@ -39,11 +39,9 @@ import {computed, inject, ref} from "vue";
 
   const isGoForwardDisabled = computed(()=>page.value===maxPages.value-1);
   function goToNext(){
-    console.log('clicked')
     console.log(page.value)
     console.log(maxPages.value-1)
     if(page.value < maxPages.value-1){
-      console.log("updated")
       page.value= page.value+1;
       loadContent();
     }
@@ -66,29 +64,42 @@ import {computed, inject, ref} from "vue";
   <div class="text-end mb-2">
     <router-link class="btn btn-primary btn-sm" to="/authors/create">Add Author</router-link>
   </div>
-  <div class="d-flex justify-content-end me-1 align-items-end">
-    <h6 class="me-1">Page {{page+1}} of {{maxPages}}</h6>
-    <button
-        class="btn-sm btn-secondary me-2"
-        @click.prevent="goToFirst"
-        :disabled="isGoBackwardsDisabled"
-    >&lt;&lt;</button>
-    <button
-        class="btn-sm btn-secondary me-2"
-        @click.prevent="goToPrevious"
-        :disabled="isGoBackwardsDisabled"
-    >&lt;</button>
-    <button
-        class="btn-sm btn-secondary me-2"
-        @click.prevent="goToNext"
-        :disabled="isGoForwardDisabled"
-    >&gt;</button>
-    <button
-        class="btn-sm btn-secondary me-2"
-        @click.prevent="goToLast"
-        :disabled="isGoForwardDisabled"
-    >&gt;&gt;</button>
-  </div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item disabled">
+        <span class="page-link">Page {{ page + 1 }} of {{ maxPages }}</span>
+      </li>
+      <li class="page-item" :class={disabled:isGoBackwardsDisabled}>
+        <button class="page-link"
+                @click.prevent="goToFirst"
+                aria-label="First">
+          <span aria-hidden="true">««</span>
+        </button>
+      </li>
+      <li class="page-item" :class={disabled:isGoBackwardsDisabled}>
+        <button class="page-link"
+                @click.prevent="goToPrevious" aria-label="Previous"
+        >
+          <span aria-hidden="true">«</span>
+        </button>
+      </li>
+      <li class="page-item" :class={disabled:isGoForwardDisabled}>
+        <button class="page-link"
+                @click.prevent="goToNext" aria-label="Next"
+
+        >
+          <span aria-hidden="true">»</span>
+        </button>
+      </li>
+      <li class="page-item" :class={disabled:isGoForwardDisabled}>
+        <button class="page-link"
+                @click.prevent="goToLast" aria-label="Last"
+        >
+          <span aria-hidden="true">»»</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
   <table class="table table-hover ">
     <thead>
     <tr>
@@ -111,16 +122,5 @@ import {computed, inject, ref} from "vue";
 </template>
 
 <style scoped>
-  .btn-sm.btn-secondary{
-    background: none;
-    border: none;
 
-    color: black;
-    font-weight: bold;
-  }
-
-  .btn-sm.btn-secondary:disabled{
-    color: darkgrey;
-    font-weight: normal;
-  }
 </style>
