@@ -1,5 +1,6 @@
 <script setup>
 
+import LoadingPage from "@/components/LoadingPage.vue";
 </script>
 
 <template>
@@ -13,7 +14,9 @@
 
       <!-- loading state via #fallback slot -->
       <template #fallback>
-        Loading...
+        <LoadingPage >
+
+        </LoadingPage>
       </template>
     </Suspense>
 
