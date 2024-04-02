@@ -1,8 +1,8 @@
 const apiPath = 'http://localhost:8080/api/v1/';
-const perPage = 20;
+const perPageDefault = 20;
 
 class ReaderService {
-    async getAll(page) {
+    async getAll(page, perPage = perPageDefault) {
         const path = apiPath + `readers/pages?page=${page}&perPage=${perPage}`;
 
         try {
@@ -16,7 +16,7 @@ class ReaderService {
         }
     }
 
-    async getReaderPages() {
+    async getReaderPages(perPage= perPageDefault) {
         const path = apiPath + `readers/pages/count?perPage=${perPage}`
 
         try {

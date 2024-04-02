@@ -1,16 +1,12 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'; // Import useRouter
+import { useRouter } from 'vue-router';
 import ReaderService from "@/services/ReaderService";
 
-// Reactive state for form fields
 const name = ref('');
 const lastName = ref('');
 
-// Use useRouter to get the router instance
 const router = useRouter();
-
-// Method to handle form submission
 const createReader = async () => {
   try {
     const reader = {
@@ -18,11 +14,9 @@ const createReader = async () => {
       lastName: lastName.value,
     };
 
-    // Use the ReaderService to send the POST request
     const success = await ReaderService.postReader(reader);
     if (success) {
       alert('Reader created successfully');
-      // Optionally, redirect to the readers list after creation
       await router.push('/readers');
     } else {
       alert('Failed to create reader');
@@ -33,9 +27,8 @@ const createReader = async () => {
   }
 };
 
-// Method to handle form cancellation and redirect to /readers
 const cancelCreation = () => {
-  router.push('/readers'); // Redirect to the readers list
+  router.push('/readers');
 };
 </script>
 
