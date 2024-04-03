@@ -190,29 +190,29 @@ onMounted(() => {
 </script>
 
 <template>
-  <h4 class="text-center">Edit Rental</h4>
+  <h4 class="text-center">Return Book</h4>
   <form class="container mb-3" action="">
     <div class="row justify-content-center">
       <h6 class="fw-bold text-center">Book</h6>
       <div class="row justify-content-center">
         <p class="text-center">{{ bookTitle }}</p>
       </div>
-      <div class="row justify-content-center">
-        <div class="col-md-3 justify-content-center d-flex">
-          <button
-              class="btn btn-sm btn-danger"
-              v-if="bookChoiceActive"
-              @click.prevent="deactivateBookChoice"
-          >Close
-          </button>
-          <button
-              v-else
-              class="btn btn-sm btn-primary"
-              @click.prevent="activateBookChoice"
-          >Change Book
-          </button>
-        </div>
-      </div>
+<!--      <div class="row justify-content-center">-->
+<!--        <div class="col-md-3 justify-content-center d-flex">-->
+<!--          <button-->
+<!--              class="btn btn-sm btn-danger"-->
+<!--              v-if="bookChoiceActive"-->
+<!--              @click.prevent="deactivateBookChoice"-->
+<!--          >Close-->
+<!--          </button>-->
+<!--          <button-->
+<!--              v-else-->
+<!--              class="btn btn-sm btn-primary"-->
+<!--              @click.prevent="activateBookChoice"-->
+<!--          >Change Book-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
       <div class="row justify-content-center" v-if="bookChoiceActive">
         <div class="col-lg-6">
           <nav aria-label="Page navigation example">
@@ -280,22 +280,22 @@ onMounted(() => {
       <div class="row justify-content-center">
         <p class="text-center">{{ readerName }}</p>
       </div>
-      <div class="row justify-content-center">
-        <div class="col-md-3 justify-content-center d-flex">
-          <button
-              class="btn btn-sm btn-danger"
-              v-if="readerChoiceActive"
-              @click.prevent="deactivateReaderChoice"
-          >Close
-          </button>
-          <button
-              v-else
-              class="btn btn-sm btn-primary"
-              @click.prevent="activateReaderChoice"
-          >Change Reader
-          </button>
-        </div>
-      </div>
+<!--      <div class="row justify-content-center">-->
+<!--        <div class="col-md-3 justify-content-center d-flex">-->
+<!--          <button-->
+<!--              class="btn btn-sm btn-danger"-->
+<!--              v-if="readerChoiceActive"-->
+<!--              @click.prevent="deactivateReaderChoice"-->
+<!--          >Close-->
+<!--          </button>-->
+<!--          <button-->
+<!--              v-else-->
+<!--              class="btn btn-sm btn-primary"-->
+<!--              @click.prevent="activateReaderChoice"-->
+<!--          >Change Reader-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
       <div class="row justify-content-center" v-if="readerChoiceActive">
         <div class="col-lg-6">
           <nav aria-label="Page navigation example">
@@ -356,12 +356,12 @@ onMounted(() => {
     </div>
     <div class="row justify-content-center">
       <div class="col-lg-3 mt-4 justify-content-center d-flex">
-        <button
-            class="btn btn-primary btn-lg me-3"
-            :class={disabled:isSubmitDisabled}
-            @click.prevent='updateRental'>
-          Save
-        </button>
+<!--        <button-->
+<!--            class="btn btn-primary btn-lg me-3"-->
+<!--            :class={disabled:isSubmitDisabled}-->
+<!--            @click.prevent='updateRental'>-->
+<!--          Save-->
+<!--        </button>-->
         <button
             class="btn btn-danger btn-lg me-3"
             @click.prevent='deleteRental'>
