@@ -65,7 +65,7 @@ class RentalService {
         }
     }
 
-    async updateRental(reqBody, id) {
+    async updateRental(id, reqBody) {
         const path = `${apiPath}rentals/${id}`;
 
         try {
