@@ -7,6 +7,7 @@ import BookService from "@/services/BookService";
 
 export default defineComponent({
   name: "rental-list",
+  inject:['$bus'],
   setup() {
     const router = useRouter();
 
@@ -88,6 +89,12 @@ export default defineComponent({
         this.retrieveRentals(this.totalPages - 1);
       }
     },
+  },
+  created() {
+    this.$bus.$on('rental-changed',()=>{
+      this.retrieveReaders();
+      this.fetchTotalPages(); // Fetch total pages when the component mounts
+    })
   },
   mounted() {
     this.retrieveRentals();

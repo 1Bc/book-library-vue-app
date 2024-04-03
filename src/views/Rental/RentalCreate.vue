@@ -81,7 +81,7 @@ function submitRental() {
   };
 
   RentalService.postRental(request);
-  bus.$emit('rental-created', request);
+  bus.$emit('rental-changed', request);
   goToRentals();
 }
 

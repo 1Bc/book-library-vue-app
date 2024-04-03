@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted, computed} from 'vue';
+import {ref, onMounted, computed, inject} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import RentalService from "@/services/RentalService";
 import BookService from "@/services/BookService";
@@ -7,6 +7,7 @@ import ReaderService from "@/services/ReaderService";
 
 const router = useRouter();
 const route = useRoute();
+const bus = inject('$bus');
 
 const readerName = ref('');
 const bookTitle = ref('');
@@ -165,6 +166,7 @@ const deleteRental = async () => {
       const success = await RentalService.deleteRental(id.value);
       if (success) {
         alert('Rental deleted successfully');
+        bus.$emit('rental-changed', id.value);
         await router.push('/rentals');
       } else {
         alert('Failed to delete reader');

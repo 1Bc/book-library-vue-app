@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref , inject} from 'vue';
 import { useRouter } from 'vue-router';
 import ReaderService from "@/services/ReaderService";
+
+const bus = inject('$bus');
 
 const name = ref('');
 const lastName = ref('');
@@ -17,6 +19,7 @@ const createReader = async () => {
     const success = await ReaderService.postReader(reader);
     if (success) {
       alert('Reader created successfully');
+      bus.$emit('readers-changed',{reader})
       await router.push('/readers');
     } else {
       alert('Failed to create reader');

@@ -5,6 +5,7 @@ import ReaderService from "@/services/ReaderService";
 
 export default defineComponent({
   name: "readers-list",
+  inject:['$bus'],
   setup() {
     const router = useRouter();
 
@@ -60,6 +61,12 @@ export default defineComponent({
         this.retrieveReaders(this.totalPages - 1);
       }
     }
+  },
+  created() {
+    this.$bus.$on('readers-changed',()=>{
+      this.retrieveReaders();
+      this.fetchTotalPages(); // Fetch total pages when the component mounts
+    })
   },
   mounted() {
     this.retrieveReaders();

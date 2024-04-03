@@ -15,8 +15,9 @@ async function loadContent(){
 }
 await loadContent();
 bus.$on('book-added',async ()=>{
-  await loadContent();
   page=0;
+  await loadContent();
+
 })
 
 function goToBook(id){

@@ -1,7 +1,9 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, inject} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import ReaderService from "@/services/ReaderService";
+
+const bus = inject('$bus');
 
 const router = useRouter();
 const route = useRoute();
@@ -31,6 +33,7 @@ const updateReader = async () => {
     const success = await ReaderService.updateReader(id.value, reader);
     if (success) {
       alert('Reader updated successfully');
+      bus.$emit('readers-changed',id.value)
       await router.push('/readers');
     } else {
       alert('Failed to update reader');
@@ -48,6 +51,7 @@ const deleteReader = async () => {
       const success = await ReaderService.deleteReader(id.value);
       if (success) {
         alert('Reader deleted successfully');
+        bus.$emit('readers-changed',id.value)
         await router.push('/readers');
       } else {
         alert('Failed to delete reader');
