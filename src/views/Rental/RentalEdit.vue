@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import RentalService from "@/services/RentalService";
 import BookService from "@/services/BookService";
@@ -8,22 +8,129 @@ import ReaderService from "@/services/ReaderService";
 const router = useRouter();
 const route = useRoute();
 
-const bookId = ref('');
-const readerId = ref('');
-const bookTitle = ref('');
 const readerName = ref('');
+const bookTitle = ref('');
 const id = ref(route.params.id);
 
+const book = ref(null);
+const reader = ref(null);
+
+const bookChoiceActive = ref(false);
+const readerChoiceActive = ref(false);
+
+const bookPage = ref(0);
+const readerPage = ref(0);
+
+const bookMaxPages = ref(await BookService.getBookPages(5));
+const readerMaxPages = ref(await ReaderService.getReaderPages(5));
+
+const bookList = ref([]);
+const readerList = ref([]);
+
+async function loadBooks() {
+  bookList.value = await BookService.getAll(bookPage.value, 5);
+}
+
+async function loadReaders() {
+  readerList.value = await ReaderService.getAll(readerPage.value, 5);
+}
+
+loadBooks();
+loadReaders();
+
+const isBookGoBackwardsDisabled = computed(() => bookPage.value === 0);
+const isBookGoForwardDisabled = computed(() => bookPage.value === bookMaxPages.value - 1);
+
+const isReaderGoBackwardsDisabled = computed(() => readerPage.value === 0);
+const isReaderGoForwardDisabled = computed(() => readerPage.value === readerMaxPages.value - 1);
+
+function deactivateBookChoice() {
+  bookChoiceActive.value = false;
+}
+
+function activateBookChoice() {
+  bookChoiceActive.value = true;
+}
+
+function deactivateReaderChoice() {
+  readerChoiceActive.value = false;
+}
+
+function activateReaderChoice() {
+  readerChoiceActive.value = true;
+}
+
+function selectBook(new_book) {
+  book.value = new_book;
+  bookTitle.value = new_book.title;
+  bookChoiceActive.value = false;
+}
+
+function selectReader(new_reader) {
+  reader.value = new_reader;
+  readerName.value = new_reader.name + ' ' + new_reader.lastName;
+  readerChoiceActive.value = false;
+}
+
+const isSubmitDisabled = computed(() => !book.value || !reader.value);
+
+function goToBookFirst() {
+  bookPage.value = 0;
+  loadBooks();
+}
+
+function goToReaderFirst() {
+  readerPage.value = 0;
+  loadReaders();
+}
+
+function goToBookNext() {
+  if (bookPage.value < bookMaxPages.value - 1) {
+    bookPage.value = bookPage.value + 1;
+    loadBooks();
+  }
+}
+
+function goToReaderNext() {
+  if (readerPage.value < readerMaxPages.value - 1) {
+    readerPage.value = readerPage.value + 1;
+    loadReaders();
+  }
+}
+
+function goToBookPrevious() {
+  if (bookPage.value > 0) {
+    bookPage.value = bookPage.value - 1;
+    loadBooks();
+  }
+}
+
+function goToReaderPrevious() {
+  if (readerPage.value > 0) {
+    readerPage.value = readerPage.value - 1;
+    loadReaders();
+  }
+}
+
+function goToBookLast() {
+  bookPage.value = bookMaxPages.value - 1;
+  loadBooks();
+}
+
+function goToReaderLast() {
+  readerPage.value = readerMaxPages.value - 1;
+  loadReaders();
+}
 const fetchRentalData = async (id) => {
   try {
     const rentalData = await RentalService.getRental(id);
-    bookId.value = rentalData.bookId;
-    readerId.value = rentalData.readerId;
-
     const bookData = await BookService.getBook(rentalData.bookId);
-    bookTitle.value = bookData.title;
-
     const readerData = await ReaderService.getReader(rentalData.readerId);
+
+    book.value = bookData;
+    reader.value = readerData;
+
+    bookTitle.value = bookData.title;
     readerName.value = readerData.name + ' ' + readerData.lastName;
   } catch (error) {
     console.error("Failed to fetch reader data", error);
@@ -33,12 +140,12 @@ const fetchRentalData = async (id) => {
 
 const updateRental = async () => {
   try {
-    const rental = {
-      bookId: bookId.value,
-      readerId: readerId.value,
+    const body = {
+      bookId: book.value.id,
+      readerId: reader.value.id,
     };
 
-    const success = await RentalService.updateRental(id.value, rental);
+    const success = await RentalService.updateRental(id.value, body);
     if (success) {
       alert('Rental updated successfully');
       await router.push('/rentals');
