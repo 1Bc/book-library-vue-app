@@ -1,7 +1,12 @@
 <script setup>
+import {computed, inject, ref} from "vue";
+import {useRouter} from "vue-router";
 import BookService from "@/services/BookService";
-import { computed, ref } from "vue";
 import ReaderService from "@/services/ReaderService";
+import RentalService from "@/services/RentalService";
+
+const router = useRouter();
+const bus = inject('$bus');
 
 const book = ref(null);
 const reader = ref(null);
@@ -61,6 +66,28 @@ function selectReader(new_reader) {
   readerChoiceActive.value = false;
 }
 
+function goToRentals() {
+  router.push({path:"/rentals"})
+}
+
+function submitRental() {
+  if (!book.value || !reader.value) {
+    return
+  }
+
+  const request = {
+    bookId: book.value.id,
+    readerId: reader.value.id,
+  };
+
+  RentalService.postRental(request);
+  bus.$emit('rental-created', request);
+  goToRentals();
+}
+
+const isSubmitDisabled = computed(() => !book.value || !reader.value);
+
+
 function goToBookFirst() {
   bookPage.value = 0;
   loadBooks();
@@ -111,7 +138,7 @@ function goToReaderLast() {
 </script>
 
 <template>
-<h4 class="text-center">Add Loan</h4>
+<h4 class="text-center">Add Rental</h4>
 <form class="container mb-3" action="">
   <div class="row justify-content-center">
     <h6 class="fw-bold text-center">Book</h6>
@@ -275,6 +302,21 @@ function goToReaderLast() {
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-3 mt-4 justify-content-center d-flex">
+      <button
+          class="btn btn-primary btn-lg me-3"
+          :class={disabled:isSubmitDisabled}
+          @click.prevent='submitRental'>
+        Save
+      </button>
+      <button
+          class="btn btn-secondary btn-lg "
+          @click.prevent='goToRentals'>
+        Cancel
+      </button>
     </div>
   </div>
 </form>

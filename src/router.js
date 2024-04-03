@@ -34,7 +34,7 @@ const routes = [
         component: () => import('@/views/Rental/RentalMenu.vue'),
         children: [
             { path: '', component: () => import('@/views/Rental/RentalList.vue') },
-            // { path: 'edit/:id', name: 'RentalEdit', component: () => import('@/views/Rental/RentalEdit.vue'), props: true },
+            { path: 'edit/:id', name: 'RentalEdit', component: () => import('@/views/Rental/RentalEdit.vue'), props: true },
             { path: 'create', component: () => import('@/views/Rental/RentalCreate.vue') }
         ]
     }

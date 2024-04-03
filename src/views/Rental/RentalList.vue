@@ -97,9 +97,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <h4 class="text-center">Book Loans</h4>
+  <h4 class="text-center">Book Rentals</h4>
   <div class="text-end mb-2">
-    <router-link class="btn btn-primary btn-sm" to="/rentals/create">Add Loan</router-link>
+    <router-link class="btn btn-primary btn-sm" to="/rentals/create">Add Rental</router-link>
   </div>
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
@@ -137,7 +137,7 @@ export default defineComponent({
     </tr>
     </thead>
     <tbody>
-    <tr v-for="rental in rentals" :key="rental.id">
+    <tr v-for="rental in rentals" :key="rental.id" @click="editRental(rental.id)" style="cursor: pointer">
       <td>{{ rental.id }}</td>
       <td>{{ rental.bookTitle }}</td>
       <td>{{ rental.readerName }}</td>
