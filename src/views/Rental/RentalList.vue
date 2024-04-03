@@ -91,10 +91,10 @@ export default defineComponent({
     },
   },
   created() {
-    this.$bus.$on('rental-changed',()=>{
-      this.retrieveReaders();
-      this.fetchTotalPages(); // Fetch total pages when the component mounts
-    })
+    // this.$bus.$on('rental-changed',()=>{
+    //   this.retrieveReaders();
+    //   this.fetchTotalPages(); // Fetch total pages when the component mounts
+    // })
   },
   mounted() {
     this.retrieveRentals();

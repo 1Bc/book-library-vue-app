@@ -163,13 +163,13 @@ const deleteRental = async () => {
   const confirmation = confirm("Are you sure you want to delete this rental?");
   if (confirmation) {
     try {
-      const success = await RentalService.deleteRental(id.value);
+      const success = await RentalService.deleteRental(book.value.id);
       if (success) {
         alert('Rental deleted successfully');
         bus.$emit('rental-changed', id.value);
         await router.push('/rentals');
       } else {
-        alert('Failed to delete reader');
+        alert('Failed to delete rental');
       }
     } catch (error) {
       console.error('Error deleting rental:', error);
